@@ -33,11 +33,11 @@ const Layout = () => {
           <div>
             <Bounce>
             <Fade>
-            <h1 className="text-5xl font-bold">Mental Health ChatBot</h1>
+            <h1 className="text-5xl font-bold">Mental Health Matters</h1>
             </Fade></Bounce>
             <p className="py-6">{text}</p>
             <button className="btn btn-primary">
-            <Link to="/chat">Hello World</Link>         
+            <Link to="/blogs">Hello World</Link>         
                  </button>
           </div>
         </div>

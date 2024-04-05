@@ -1,7 +1,8 @@
-import { useState } from "react";
+// Quiz.js
+import React, { useState } from "react";
 import Footer from "./Footer";
 
-function Quiz() {
+function Quiz({ onComplete }) {
   const questions = [
     {
       question: "How often do you feel overwhelmed or stressed?",
@@ -31,7 +32,6 @@ function Quiz() {
       question: "How often do you have suicidal thoughts?",
       options: ["Rarely", "Sometimes", "Often", "Always"],
     },
-    // Add more questions here
   ];
 
   const [answers, setAnswers] = useState([]);
@@ -59,7 +59,9 @@ function Quiz() {
     } else {
       // Display the score to the user
       setShowMessage(true);
+      onComplete(); // Notify parent component that quiz is complete
     }
+
   };
 
   // Function to determine button color based on the option index
@@ -101,7 +103,7 @@ function Quiz() {
   return (
     <>
       <div className="flex flex-col items-center justify-center w-full h-screen mt-36 bg-slate-500">
-        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg hover:scale-110 transition-transform duration-300 hover:mt-12 hover:mb-12">
+        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg hover:scale-150 transition-transform duration-300 hover:mt-12 hover:mb-12">
           <h1 className="text-2xl font-bold mb-4">
             Question {currentQuestion + 1}:
           </h1>
@@ -120,67 +122,26 @@ function Quiz() {
             ))}
           </div>
         </div>
-        <div className="mt-4 w-3/4 bg-green-400 h-8 rounded-md">
-          <div
-            style={{ width: `${(score / (questions.length * 4)) * 100}%` }}
-            className="bg-red-500 h-full rounded-md"
-          ></div>
-        </div>
+        
         {showMessage && (
           <div
             id="what is next"
             className="text-2xl flex flex-col items-center justify-center w-full mt-8"
           >
+            <div className="mt-4 w-3/4 bg-green-400 h-8 rounded-md">
+          <div
+            style={{ width: `${(score / (questions.length * 4)) * 100}%` }}
+            className="bg-red-500 h-full rounded-md  mb-11 flex flex-col items-center justify-center w-full text-white border-lime-400 border-23"
+          >
+           Your Score
+          </div>
+        </div>
             {renderMessage()}
           </div>
         )}
-        {/* New button to display message based on score */}
-        <div className="mt-4">
-          {score < 8 && (
-            <button
-              className="btn btn-success text-lg text-white"
-            >
-              As per our virtual interaction you are pretty normal. 
-              You can always book a concellor by pressing this button
-            </button>
-          )}
-          {(score >= 8 && score < 16) && (
-            <button
-              className="btn btn-warning text-lg text-white"
-              onClick={(evt) =>{ 
-                alert("You seem to be a bit off!")
-                evt.preventDefault()
-                fetch('http://localhost:5000/send')
-                .then(
-                    console.log("Mail Sent")
-                )
-                .catch(console.error("Mail not Sent "))
-              }}
-            >
-              Get Message for 8 {"<= "} Score {"<"} 16
-            </button>
-          )}
-          {score >= 16 && (
-            <button
-              className="btn btn-error text-lg text-white"
-              onClick={(evt) =>{ 
-                alert("Danger!")
-                evt.preventDefault()
-                fetch('http://localhost:5000/mail')
-                .then(
-                    console.log("Mail Sent")
-                )
-                .catch(console.error("Mail not Sent "))
-              }}
-            >
-              Get Message for Score {">="} 16
-            </button>
-          )}
-        </div>
       </div>
-      <Footer />
+      <Footer/>
     </>
-
   );
 }
 
